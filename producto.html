@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Detalle de Producto</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="logo"><a href="index.html">TechStore</a></div>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="inputBusqueda"
+          placeholder="Buscar componentes..."
+        />
+        <button id="btnBusqueda">Buscar</button>
+      </div>
+      <nav class="user-actions">
+        <button id="themeToggle" class="theme-btn" title="Cambiar tema">
+          🌙
+        </button>
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="armatupc.html">Arma tu PC</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="#" id="abrirCarrito">🛒 (<span id="cartCount">0</span>)</a>
+
+        <div
+          id="user-menu-container"
+          style="position: relative; margin-left: 10px"
+        >
+          <a
+            href="login.html"
+            id="btn-login-header"
+            class="btn-secondary"
+            style="padding: 0.4rem 1rem"
+            >Iniciar Sesión</a
+          >
+
+          <div
+            id="user-profile-btn"
+            style="
+              display: none;
+              cursor: pointer;
+              align-items: center;
+              gap: 8px;
+              transition: transform 0.3s ease;
+            "
+          >
+            <img
+              id="user-avatar"
+              src=""
+              alt="Avatar"
+              style="
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 2px solid var(--primary-color);
+                object-fit: cover;
+                box-shadow: var(--shadow-sm);
+              "
+            />
+          </div>
+
+          <div id="user-dropdown" class="dropdown-menu">
+            <p
+              id="user-name-display"
+              style="
+                font-weight: 700;
+                font-size: 0.95rem;
+                margin-bottom: 5px;
+                color: var(--text-main);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
+              "
+            >
+              Usuario
+            </p>
+            <p
+              id="user-email-display"
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
+              "
+            >
+              correo@google.com
+            </p>
+            <hr
+              style="
+                border: none;
+                border-top: 1px solid var(--border-color);
+                margin: 10px 0;
+              "
+            />
+            <a
+              href="perfil.html"
+              style="color: var(--text-main); padding: 8px 0; width: 100%"
+              ><span style="margin-right: 8px">👤</span> Mi Perfil y Pedidos</a
+            >
+            <a
+              href="#"
+              id="btn-logout"
+              style="color: var(--danger-color); padding: 8px 0; width: 100%"
+              ><span style="margin-right: 8px">🚪</span> Cerrar Sesión</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section
+        id="detalle-producto-dinamico"
+        class="product-detail-layout fade-in"
+      ></section>
+    </main>
+
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>TechStore</h3>
+          <p>Tu destino número uno para armar la PC de tus sueños.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo Completo</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Soporte</h4>
+          <ul>
+            <li><a href="garantia.html">Políticas de Garantía</a></li>
+            <li><a href="envios.html">Envíos y Devoluciones</a></li>
+            <li><a href="pagos.html">Métodos de Pago</a></li>
+            <li><a href="faq.html">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Síguenos</h4>
+          <div class="social-links">
+            <a href="#">📸 Instagram</a>
+            <a href="#">▶️ YouTube</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 TechStore. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <div id="fondoOscuro" class="overlay"></div>
+    <div id="carritoLateral" class="cart-drawer">
+      <div class="drawer-header">
+        <h3>Tu Carrito</h3>
+        <button id="cerrarCarrito" class="btn-cerrar">✖</button>
+      </div>
+      <div id="listaCarritoLateral" class="drawer-items"></div>
+      <div class="drawer-footer">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 1rem;
+          "
+        >
+          <span>Total:</span><span id="totalCarritoLateral">$0.00</span>
+        </div>
+        <a
+          href="checkout.html"
+          class="btn-primary"
+          style="display: block; text-align: center"
+          >Ir a Pagar</a
+        >
+      </div>
+    </div>
+
+    <script src="JavaScript/productos.js"></script>
+    <script src="JavaScript/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="JavaScript/auth.js"></script>
+  </body>
+</html>

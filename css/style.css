@@ -1,0 +1,884 @@
+/* ==========================================================================
+   1. VARIABLES DE TEMA (CLARO Y OSCURO)
+   ========================================================================== */
+:root {
+  --primary-color: #0047ab;
+  --primary-hover: #003580;
+  --bg-color: #f4f7f6;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+  --danger-color: #ef4444;
+  --success-color: #10b981;
+  --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0b1121;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --header-bg: rgba(30, 41, 59, 0.9);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.7);
+  --primary-color: #3b82f6;
+  --primary-hover: #60a5fa;
+}
+
+/* ==========================================================================
+   2. RESET Y TIPOGRAFÍA GENERAL
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  transition:
+    background-color var(--transition-speed),
+    border-color var(--transition-speed);
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+main {
+  flex-grow: 1;
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   3. HEADER, NAVEGACIÓN Y BARRA DE BÚSQUEDA
+   ========================================================================== */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+.logo a {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.search-bar {
+  display: flex;
+  flex-grow: 1;
+  max-width: 500px;
+  margin: 0 2rem;
+  border-radius: 4px;
+  background: var(--card-bg);
+  border: 2px solid var(--primary-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.search-bar:focus-within {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+.search-bar input,
+.search-bar input[type="text"] {
+  width: 100%;
+  padding: 0.8rem 1.2rem !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--text-main);
+  outline: none !important;
+  font-size: 0.95rem;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+.search-bar button {
+  width: 60px;
+  padding: 0;
+  background-color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px;
+}
+.search-bar button:hover {
+  background-color: var(--primary-hover);
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+/* 1. Enlaces normales: Solo cambia el color de la letra y saltan un poquito */
+.user-actions a {
+  color: var(--text-main);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.user-actions a:hover {
+  color: var(--primary-color); /* La letra se pinta de azul */
+  transform: translateY(-2px);
+}
+
+/* 2. El botón del Carrito: Fondo azul y letra blanca para que destaque */
+.user-actions a#abrirCarrito {
+  background-color: var(--primary-color);
+  color: #ffffff !important; /* Letra blanca forzada */
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-actions a#abrirCarrito:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.theme-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+.theme-btn:hover {
+  transform: rotate(15deg) scale(1.1);
+  border-color: var(--primary-color);
+}
+
+/* ==========================================================================
+   4. TARJETAS Y BOTONES
+   ========================================================================== */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-color);
+}
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 10px;
+}
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  width: 100%;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+.btn-primary:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+  transition: 0.2s;
+}
+.btn-secondary:hover {
+  background: var(--primary-color);
+  color: white;
+}
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   5. DISEÑOS ESPECÍFICOS (LAYOUTS)
+   ========================================================================== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+}
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.builder-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 320px;
+  gap: 2rem;
+  align-items: start;
+}
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+.builder-steps li {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.builder-steps li:hover {
+  background: var(--bg-color);
+  color: var(--text-main);
+}
+.builder-steps li.active {
+  border-left: 4px solid var(--primary-color);
+  background: var(--bg-color);
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   6. FILTROS DEL CATÁLOGO PERSONALIZADOS
+   ========================================================================== */
+.catalog-layout aside.card {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+.catalog-layout aside label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.catalog-layout aside label:hover {
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+.catalog-layout aside input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 5px;
+  outline: none;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: var(--primary-hover);
+}
+
+/* ==========================================================================
+   7. CARRITO LATERAL Y VENTANAS MODALES
+   ========================================================================== */
+.overlay,
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+}
+.overlay.activo,
+.modal.activo {
+  opacity: 1;
+  visibility: visible;
+}
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background-color: var(--card-bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+}
+.cart-drawer.abierto {
+  right: 0;
+}
+.drawer-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drawer-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.drawer-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-color);
+}
+.item-carrito {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.item-carrito img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  background: var(--bg-color);
+  border-radius: 8px;
+}
+.item-info {
+  flex-grow: 1;
+}
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  color: var(--danger-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.btn-eliminar:hover {
+  transform: scale(1.2);
+}
+.modal-content {
+  background: var(--card-bg);
+  width: 90%;
+  max-width: 800px;
+  margin: 5vh auto;
+  border-radius: var(--radius);
+  padding: 2rem;
+  position: relative;
+  transform: translateY(-50px);
+  transition: 0.3s ease;
+  box-shadow: var(--shadow-hover);
+}
+.modal.activo .modal-content {
+  transform: translateY(0);
+}
+.btn-cerrar {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  /* Le decimos al navegador que anime el color y el movimiento de forma suave */
+  transition:
+    transform 0.4s ease,
+    color 0.3s ease;
+}
+
+.btn-cerrar:hover {
+  color: var(--danger-color);
+  /* Aquí está la magia: hace que gire media vuelta (180 grados) y se haga un poquito más grande */
+  transform: rotate(180deg) scale(1.2);
+}
+
+/* ==========================================================================
+   8. SLIDER HERO (ESTILO HISTORIAS Y ANIMACIONES DE FONDO)
+   ========================================================================== */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+}
+.slides-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 1;
+}
+.slide.activa {
+  opacity: 1;
+  z-index: 2;
+}
+.story-indicators {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  width: 90%;
+  z-index: 10;
+}
+.indicator {
+  flex-grow: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.indicator .progress {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.9);
+}
+.indicator.llenando .progress {
+  animation: fillProgress 5s linear forwards;
+}
+.indicator.completado .progress {
+  width: 100%;
+}
+@keyframes fillProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes animarFondo {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.slide-content {
+  position: relative;
+  z-index: 1;
+}
+.slide-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: white !important;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.slide-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: white !important;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+.slide-content .btn-primary {
+  width: auto;
+  background: white !important;
+  color: #0f172a !important;
+  border: none;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.slide-content .btn-primary:hover {
+  background: #e2e8f0 !important;
+  transform: translateY(-2px);
+}
+.slide-1,
+.slide-2,
+.slide-3 {
+  background-size: 400% 400% !important;
+  animation: animarFondo 15s ease infinite !important;
+}
+.slide-1 {
+  background-image: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    #001233 25%,
+    #8b5cf6 50%,
+    var(--primary-color) 100%
+  ) !important;
+}
+.slide-2 {
+  background-image: linear-gradient(
+    135deg,
+    #10b981 0%,
+    #064e3b 25%,
+    #2dd4bf 50%,
+    #10b981 100%
+  ) !important;
+}
+.slide-3 {
+  background-image: linear-gradient(
+    135deg,
+    #8b5cf6 0%,
+    #4c1d95 25%,
+    #ec4899 50%,
+    #8b5cf6 100%
+  ) !important;
+}
+
+/* ==========================================================================
+   9. FOOTER PROFESIONAL
+   ========================================================================== */
+.main-footer {
+  background-color: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 4rem 2rem 1rem 2rem;
+  margin-top: auto;
+}
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.footer-column h3 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.footer-column h4 {
+  color: var(--text-main);
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+}
+.footer-column p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+.footer-column ul {
+  list-style: none;
+}
+.footer-column ul li {
+  margin-bottom: 0.8rem;
+}
+.footer-column ul li a,
+.social-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    transform 0.2s;
+  display: inline-block;
+  font-size: 0.95rem;
+}
+.footer-column ul li a:hover,
+.social-links a:hover {
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   10. ANIMACIONES Y MEDIA QUERIES
+   ========================================================================== */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cart-bump {
+  animation: bump 0.4s ease-out;
+  color: var(--primary-color) !important;
+  font-weight: bold;
+}
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .builder-layout {
+    grid-template-columns: 1fr 300px;
+  }
+  .builder-steps {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .builder-steps li {
+    border-bottom: none;
+    border-left: none;
+    border-top: 4px solid transparent;
+  }
+  .builder-steps li.active {
+    border-left: none;
+    border-top: 4px solid var(--primary-color);
+  }
+}
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+  .main-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .search-bar {
+    order: 3;
+    max-width: 100%;
+    margin: 0;
+  }
+  .logo {
+    order: 1;
+  }
+  .user-actions {
+    order: 2;
+    gap: 1rem;
+  }
+  .catalog-layout,
+  .checkout-layout,
+  .builder-layout {
+    grid-template-columns: 1fr;
+  }
+  .catalog-layout aside.card {
+    position: static;
+    margin-bottom: 1.5rem;
+    max-height: none;
+  }
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   11. ESTILOS DE FORMULARIO CHECKOUT PRO
+   ========================================================================== */
+.input-pro {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 5px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-pro:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 71, 171, 0.1);
+}
+
+.input-pro.valido {
+  border-color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.input-pro.invalido {
+  border-color: var(--danger-color);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+/* ==========================================================================
+   12. MENÚ DESPLEGABLE DE USUARIO (DROPDOWN)
+   ========================================================================== */
+.dropdown-menu {
+  position: absolute;
+  top: 130%;
+  right: 0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* Efecto de cristal / Blur */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Animación de entrada */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 100;
+}
+
+.dropdown-menu.activo {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu a {
+  transition:
+    background-color 0.2s ease,
+    padding-left 0.2s ease !important;
+  border-radius: 6px;
+}
+
+.dropdown-menu a:hover {
+  background-color: var(--bg-color);
+  padding-left: 5px !important;
+  transform: none !important; /* Evitamos el salto que tienen los enlaces normales */
+}
+
+#user-profile-btn:hover {
+  transform: scale(1.05);
+}

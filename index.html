@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Inicio</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="logo"><a href="index.html">TechStore</a></div>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar componentes..." />
+        <button>Buscar</button>
+      </div>
+
+      <nav class="user-actions">
+        <button id="themeToggle" class="theme-btn" title="Cambiar tema">
+          🌙
+        </button>
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="armatupc.html">Arma tu PC</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="#" id="abrirCarrito">🛒 (<span id="cartCount">0</span>)</a>
+
+        <div
+          id="user-menu-container"
+          style="position: relative; margin-left: 10px"
+        >
+          <a
+            href="login.html"
+            id="btn-login-header"
+            class="btn-secondary"
+            style="padding: 0.4rem 1rem"
+            >Iniciar Sesión</a
+          >
+
+          <div
+            id="user-profile-btn"
+            style="
+              display: none;
+              cursor: pointer;
+              align-items: center;
+              gap: 8px;
+              transition: transform 0.3s ease;
+            "
+          >
+            <img
+              id="user-avatar"
+              src=""
+              alt="Avatar"
+              style="
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 2px solid var(--primary-color);
+                object-fit: cover;
+                box-shadow: var(--shadow-sm);
+              "
+            />
+          </div>
+
+          <div id="user-dropdown" class="dropdown-menu">
+            <p
+              id="user-name-display"
+              style="
+                font-weight: 700;
+                font-size: 0.95rem;
+                margin-bottom: 5px;
+                color: var(--text-main);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
+              "
+            >
+              Usuario
+            </p>
+            <p
+              id="user-email-display"
+              style="
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
+              "
+            >
+              correo@google.com
+            </p>
+            <hr
+              style="
+                border: none;
+                border-top: 1px solid var(--border-color);
+                margin: 10px 0;
+              "
+            />
+            <a
+              href="perfil.html"
+              style="color: var(--text-main); padding: 8px 0; width: 100%"
+              ><span style="margin-right: 8px">👤</span> Mi Perfil y Pedidos</a
+            >
+            <a
+              href="#"
+              id="btn-logout"
+              style="color: var(--danger-color); padding: 8px 0; width: 100%"
+              ><span style="margin-right: 8px">🚪</span> Cerrar Sesión</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-slider">
+        <div class="story-indicators">
+          <div class="indicator"><div class="progress"></div></div>
+          <div class="indicator"><div class="progress"></div></div>
+          <div class="indicator"><div class="progress"></div></div>
+        </div>
+
+        <div class="slides-container">
+          <div class="slide slide-1 activa">
+            <div class="slide-content">
+              <h1>Lleva tu Setup al Siguiente Nivel</h1>
+              <p>
+                Descubre componentes de última generación para un rendimiento
+                extremo.
+              </p>
+              <button
+                class="btn-primary"
+                onclick="window.location.href = 'catalogo.html'"
+              >
+                Ver Catálogo
+              </button>
+            </div>
+          </div>
+
+          <div class="slide slide-2">
+            <div class="slide-content">
+              <h1>Arma la PC de tus sueños</h1>
+              <p>
+                Nuestra herramienta inteligente garantiza 100% de
+                compatibilidad.
+              </p>
+              <button
+                class="btn-primary"
+                onclick="window.location.href = 'armatupc.html'"
+              >
+                Empezar a Armar
+              </button>
+            </div>
+          </div>
+
+          <div class="slide slide-3">
+            <div class="slide-content">
+              <h1>Periféricos Premium</h1>
+              <p>Mouse, teclados y monitores para verdaderos profesionales.</p>
+              <button
+                class="btn-primary"
+                onclick="window.location.href = 'catalogo.html'"
+              >
+                Ver Accesorios
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <h2 style="margin-bottom: 1.5rem">Productos Destacados</h2>
+      <section class="product-grid" id="contenedor-destacados"></section>
+
+      <section
+        style="
+          margin-top: 5rem;
+          margin-bottom: 2rem;
+          border-top: 1px solid var(--border-color);
+          padding-top: 3rem;
+        "
+      >
+        <h2 style="text-align: center; margin-bottom: 3rem">
+          ¿Por qué comprar en TechStore?
+        </h2>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+          "
+        >
+          <div style="padding: 1rem">
+            <div style="font-size: 3.5rem; margin-bottom: 1rem">🚚</div>
+            <h3 style="margin-bottom: 0.5rem">Envíos a todo México</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem">
+              Tu hardware llega seguro y rápido hasta la puerta de tu casa con
+              seguro incluido.
+            </p>
+          </div>
+
+          <div style="padding: 1rem">
+            <div style="font-size: 3.5rem; margin-bottom: 1rem">🛡️</div>
+            <h3 style="margin-bottom: 0.5rem">Garantía Extendida</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem">
+              Todos nuestros componentes y computadoras armadas cuentan con
+              garantía directa.
+            </p>
+          </div>
+
+          <div style="padding: 1rem">
+            <div style="font-size: 3.5rem; margin-bottom: 1rem">⚙️</div>
+            <h3 style="margin-bottom: 0.5rem">Soporte Especializado</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem">
+              ¿Dudas con tu ensamble o cuellos de botella? Nuestro equipo de
+              expertos te asesora.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h3>TechStore</h3>
+          <p>
+            Tu destino número uno para armar la PC de tus sueños con los mejores
+            componentes del mercado. Rendimiento y calidad garantizados.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo Completo</a></li>
+            <li><a href="armatupc.html">Configurador de PC</a></li>
+            <li><a href="checkout.html">Ir al Carrito</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Soporte al Cliente</h4>
+          <ul>
+            <li><a href="garantia.html">Políticas de Garantía</a></li>
+            <li><a href="envios.html">Envíos y Devoluciones</a></li>
+            <li><a href="pagos.html">Métodos de Pago</a></li>
+            <li><a href="faq.html">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Síguenos</h4>
+          <div class="social-links">
+            <a href="#">📘 Facebook</a>
+            <a href="#">📸 Instagram</a>
+            <a href="#">🐦 Twitter (X)</a>
+            <a href="#">▶️ YouTube</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 TechStore. Todos los derechos reservados. Diseñado para
+          amantes del hardware.
+        </p>
+      </div>
+    </footer>
+
+    <div id="fondoOscuro" class="overlay"></div>
+    <div id="carritoLateral" class="cart-drawer">
+      <div class="drawer-header">
+        <h3>Tu Carrito</h3>
+        <button id="cerrarCarrito" class="btn-cerrar">✖</button>
+      </div>
+      <div id="listaCarritoLateral" class="drawer-items"></div>
+      <div class="drawer-footer">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <span>Total:</span><span id="totalCarritoLateral">$0.00</span>
+        </div>
+        <a
+          href="checkout.html"
+          class="btn-primary"
+          style="display: block; text-align: center"
+          >Ir a Pagar</a
+        >
+      </div>
+    </div>
+
+    <div id="modalVistaRapida" class="modal">
+      <div class="modal-content">
+        <button id="cerrarModal" class="btn-cerrar">✖</button>
+        <div
+          id="contenidoModal"
+          style="display: flex; gap: 2rem; flex-wrap: wrap"
+        ></div>
+      </div>
+    </div>
+
+    <script src="JavaScript/productos.js"></script>
+    <script src="JavaScript/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script src="JavaScript/auth.js"></script>
+  </body>
+</html>

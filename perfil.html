@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Mi Perfil</title>
+    <link rel="stylesheet" href="CSS/style.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="logo"><a href="index.html">TechStore</a></div>
+      <nav class="user-actions">
+        <button id="themeToggle" class="theme-btn" title="Cambiar tema">
+          🌙
+        </button>
+        <a href="index.html">Volver al Inicio</a>
+      </nav>
+    </header>
+
+    <main>
+      <div
+        class="fade-in"
+        style="max-width: 900px; margin: 0 auto; padding-top: 2rem"
+      >
+        <div
+          class="card"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(
+              135deg,
+              var(--card-bg) 0%,
+              var(--bg-color) 100%
+            );
+          "
+        >
+          <img
+            id="perfil-avatar"
+            src="https://www.svgrepo.com/show/5125/avatar.svg"
+            alt="Foto de perfil"
+            style="
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              border: 4px solid var(--primary-color);
+              object-fit: cover;
+            "
+          />
+          <div>
+            <h1
+              id="perfil-nombre"
+              style="font-size: 2.5rem; margin-bottom: 0.5rem"
+            >
+              Cargando usuario...
+            </h1>
+            <p
+              id="perfil-correo"
+              style="
+                color: var(--text-muted);
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+              "
+            >
+              ...
+            </p>
+            <span
+              id="badge-verificado"
+              style="
+                background-color: var(--success-color);
+                color: white;
+                padding: 0.3rem 0.8rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: bold;
+                display: none;
+              "
+              >Cuenta Verificada</span
+            >
+          </div>
+        </div>
+
+        <h2
+          style="
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+          "
+        >
+          Historial de Pedidos
+        </h2>
+
+        <div
+          id="contenedor-pedidos-reales"
+          style="display: flex; flex-direction: column; gap: 1rem"
+        >
+          <div
+            class="card"
+            style="padding: 2rem; text-align: center; color: var(--text-muted)"
+          >
+            <p>⏳ Cargando tu historial de compras...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script src="JavaScript/auth.js"></script>
+    <script src="JavaScript/main.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Pintar datos rápidos del LocalStorage para que la pantalla no se vea vacía al cargar
+        const usuarioLocal = JSON.parse(localStorage.getItem("techstore_user"));
+        if (usuarioLocal) {
+          document.getElementById("perfil-nombre").textContent =
+            usuarioLocal.nombre || "Usuario";
+          document.getElementById("perfil-correo").textContent =
+            usuarioLocal.correo;
+          if (usuarioLocal.foto)
+            document.getElementById("perfil-avatar").src = usuarioLocal.foto;
+          if (usuarioLocal.verificado)
+            document.getElementById("badge-verificado").style.display =
+              "inline-block";
+        } else {
+          window.location.href = "login.html"; // Si no hay usuario, lo rebotamos
+        }
+
+        // Conectarnos a Firebase para traer los pedidos reales
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            cargarPedidosDeFirebase(user.uid);
+          }
+        });
+
+        async function cargarPedidosDeFirebase(uid) {
+          const db = firebase.firestore();
+          const contenedor = document.getElementById(
+            "contenedor-pedidos-reales",
+          );
+
+          try {
+            // Buscamos los pedidos que le pertenecen a este usuario
+            const snapshot = await db
+              .collection("pedidos")
+              .where("userId", "==", uid)
+              .get();
+
+            if (snapshot.empty) {
+              contenedor.innerHTML = `
+                <div class="card" style="padding: 3rem; text-align: center;">
+                  <p style="color: var(--text-muted); font-size: 1.1rem;">Aún no has realizado ningún pedido.</p>
+                  <a href="catalogo.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.5rem 1.5rem;">Ir de compras</a>
+                </div>`;
+              return;
+            }
+
+            // Metemos los pedidos en un arreglo para poder ordenarlos por fecha (del más nuevo al más viejo)
+            const pedidosArray = [];
+            snapshot.forEach((doc) =>
+              pedidosArray.push({ id: doc.id, ...doc.data() }),
+            );
+            pedidosArray.sort((a, b) => b.fecha.toDate() - a.fecha.toDate());
+
+            // Construimos el HTML de cada pedido
+            let htmlPedidos = "";
+            pedidosArray.forEach((pedido) => {
+              // Formatear la fecha para que se vea bonita (Ej: 10 de Mayo, 2026)
+              const fechaObj = pedido.fecha.toDate();
+              const fechaFormateada = fechaObj.toLocaleDateString("es-MX", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+
+              // Extraer los nombres de los productos que compró
+              const resumenProductos = pedido.items
+                .map((item) => `${item.cantidad}x ${item.nombre}`)
+                .join(", ");
+
+              // Formatear el total con comas
+              const totalDinero = pedido.total.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              });
+
+              htmlPedidos += `
+                <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                  <div style="flex: 1; min-width: 250px;">
+                    <p style="font-weight: bold; color: var(--primary-color); margin-bottom: 5px;">Pedido #${pedido.id.slice(0, 8).toUpperCase()}</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Realizado el ${fechaFormateada}</p>
+                    <p style="color: var(--text-main); margin-top: 10px; font-weight: 600; font-size: 0.9rem;">
+                      ${resumenProductos}
+                    </p>
+                  </div>
+                  <div style="text-align: right; min-width: 150px;">
+                    <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 5px;">$${totalDinero}</p>
+                    <span style="color: #F59E0B; font-weight: bold; background: rgba(245, 158, 11, 0.1); padding: 5px 10px; border-radius: 5px; font-size: 0.85rem; display: inline-block;">
+                      📦 ${pedido.estado}
+                    </span>
+                  </div>
+                </div>
+              `;
+            });
+
+            // Inyectamos todo al HTML
+            contenedor.innerHTML = htmlPedidos;
+          } catch (error) {
+            console.error("Error al cargar pedidos:", error);
+            contenedor.innerHTML = `<div class="card"><p style="color: var(--danger-color);">Ocurrió un error al cargar tu historial.</p></div>`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
